@@ -19,8 +19,16 @@ const NAV_LINKS = [
 const TOOL_LOGOS = [
   { name: "Canva", src: "/canva.svg" },
   { name: "Photoshop", src: "/adobe.svg" },
-  { name: "Google Workspace", src: "/google-workspace-seeklogo.svg" },
-  { name: "ElevenLabs", src: "/elevenlabs-seeklogo.svg" },
+  {
+    name: "Google Workspace",
+    src: "/google-workspace-seeklogo.svg",
+    logoClassName: "h-10 w-[4.5rem] sm:h-12 sm:w-[5.5rem] md:h-14 md:w-[6.5rem] lg:h-16 lg:w-28",
+  },
+  {
+    name: "ElevenLabs",
+    src: "/elevenlabs-seeklogo.svg",
+    logoClassName: "h-7 w-[4.4rem] sm:h-8 sm:w-[5.6rem] md:h-10 md:w-[6.4rem] lg:h-11 lg:w-[7.2rem]",
+  },
   { name: "Claude", src: "/claude.svg" },
   { name: "Higgsfield", src: "/higgsfield-seeklogo.svg" },
 ] as const;
@@ -424,6 +432,7 @@ export default function Portfolio() {
                     name={tool.name}
                     src={tool.src}
                     delay={i * 70}
+                    logoClassName={"logoClassName" in tool ? tool.logoClassName : undefined}
                   />
                 ))}
               </div>
@@ -668,25 +677,33 @@ function SkillLogoTile({
   name,
   src,
   delay,
+  logoClassName,
 }: {
   name: string;
   src: string;
   delay: number;
+  logoClassName?: string;
 }) {
+  const logoSize =
+    logoClassName ??
+    "h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-14 lg:w-14";
+
   return (
     <Reveal delay={delay} className="group flex flex-col gap-1.5 sm:gap-2 md:gap-3">
       <Bezel
         className={`${EASE} group-hover:ring-white/20`}
         innerClassName="flex aspect-square items-center justify-center border border-white/10 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] sm:p-5 md:p-6 lg:p-8"
       >
-        <div className="relative h-8 w-8 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-14 lg:w-14">
+        <div
+          className={`relative shrink-0 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 ${logoSize}`}
+        >
           <Image
             src={src}
             alt={name}
             fill
             unoptimized
             className="object-contain"
-            sizes="(max-width: 640px) 32px, 56px"
+            sizes="(max-width: 640px) 32px, 112px"
           />
         </div>
       </Bezel>

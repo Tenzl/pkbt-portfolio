@@ -52,11 +52,11 @@ function FormField({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/45">
+      <label htmlFor={id} className="text-[10px] font-medium uppercase tracking-[0.15em] text-white/45 sm:text-[11px]">
         {label}
         {required && <span className="text-[#ccff00]"> *</span>}
       </label>
-      <div className="rounded-[1.25rem] bg-white/[0.04] p-1 ring-1 ring-white/10">
+      <div className="bezel-outer p-1">
         <input
           id={id}
           name={id}
@@ -64,7 +64,7 @@ function FormField({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
-          className={`w-full rounded-[calc(1.25rem-0.25rem)] bg-[#0a0a0c] px-4 py-3.5 text-sm text-white placeholder:text-white/25 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] outline-none focus:ring-1 focus:ring-[#ccff00]/40 ${EASE}`}
+          className={`bezel-inner w-full px-3 py-3 text-sm text-white placeholder:text-white/25 outline-none focus:ring-1 focus:ring-[#ccff00]/40 sm:px-4 sm:py-3.5 ${EASE}`}
         />
       </div>
       {error && (
@@ -128,22 +128,22 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-[2rem] bg-white/[0.04] p-1.5 ring-1 ring-white/10">
-        <div className="rounded-[calc(2rem-0.375rem)] bg-[#0a0a0c] px-8 py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)]">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#ccff00]/15 ring-1 ring-[#ccff00]/30">
-            <svg className="h-6 w-6 text-[#ccff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <div className="bezel-outer">
+        <div className="bezel-inner px-6 py-10 text-center sm:px-8 sm:py-14">
+          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#ccff00]/15 ring-1 ring-[#ccff00]/30 sm:mb-6 sm:h-14 sm:w-14">
+            <svg className="h-5 w-5 text-[#ccff00] sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold tracking-tight text-white">Đã gửi thành công</h3>
-          <p className="mt-3 text-sm leading-relaxed text-white/45">
-            Cảm ơn bạn. Thông tin tuyển dụng đã được chuyển tới{" "}
+          <h3 className="text-xl font-bold tracking-tight text-white sm:text-2xl">Đã gửi thành công</h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/45 sm:mt-3">
+            Thông tin đã gửi tới{" "}
             <span className="text-[#ccff00]/90">pkbtran.onlyjob@gmail.com</span>.
           </p>
           <button
             type="button"
             onClick={() => setStatus("idle")}
-            className={`mt-8 rounded-full border border-white/15 px-6 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-white/60 hover:border-[#ccff00]/40 hover:text-[#ccff00] ${EASE}`}
+            className={`mt-6 rounded-full border border-white/15 px-5 py-2 text-xs font-medium uppercase tracking-[0.15em] text-white/60 hover:border-[#ccff00]/40 hover:text-[#ccff00] sm:mt-8 ${EASE}`}
           >
             Gửi thêm
           </button>
@@ -154,21 +154,24 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div className="rounded-[2rem] bg-white/[0.04] p-1.5 ring-1 ring-white/10">
-        <div className="rounded-[calc(2rem-0.375rem)] bg-[#0a0a0c] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] md:p-10">
-          <div className="mb-8">
+      <div className="bezel-outer">
+        <div className="bezel-inner p-5 sm:p-6 md:p-8 lg:p-10">
+          <div className="mb-6 sm:mb-8">
             <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#ccff00]">
               Tuyển dụng
             </p>
-            <h3 className="mt-3 text-2xl font-bold tracking-tight text-white md:text-3xl">
+            <h3 className="mt-2 text-xl font-bold tracking-tight text-white sm:mt-3 sm:text-2xl md:text-3xl">
               Gửi thông tin liên hệ
             </h3>
-            <p className="mt-2 text-sm text-white/40">
-              Điền form bên dưới — thông tin sẽ được gửi trực tiếp qua email.
+            <p className="mt-1.5 text-xs text-white/40 sm:mt-2 sm:text-sm">
+              <span className="md:hidden">Điền form — gửi qua email.</span>
+              <span className="hidden md:inline">
+                Điền form bên dưới — thông tin sẽ được gửi trực tiếp qua email.
+              </span>
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
             <FormField
               id="fullName"
               label="Họ tên"
@@ -198,7 +201,7 @@ export default function ContactForm() {
             />
             <FormField
               id="phone"
-              label="Số điện thoại"
+              label="SĐT"
               type="tel"
               placeholder="(+84) 984 002 267"
               value={form.phone}
@@ -221,16 +224,16 @@ export default function ContactForm() {
           </div>
 
           {serverError && (
-            <p className="mt-6 rounded-[1rem] bg-red-500/10 px-4 py-3 text-sm text-red-300 ring-1 ring-red-500/20" role="alert">
+            <p className="mt-5 rounded-[1rem] bg-red-500/10 px-3 py-2.5 text-xs text-red-300 ring-1 ring-red-500/20 sm:mt-6 sm:px-4 sm:py-3 sm:text-sm" role="alert">
               {serverError}
             </p>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="submit"
               disabled={status === "loading"}
-              className={`group inline-flex items-center gap-3 rounded-full bg-[#ccff00] px-6 py-3 text-sm font-semibold text-black active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 ${EASE}`}
+              className={`group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#ccff00] px-6 py-3 text-sm font-semibold text-black active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto ${EASE}`}
             >
               <span>{status === "loading" ? "Đang gửi..." : "Gửi thông tin"}</span>
               <span
@@ -243,7 +246,7 @@ export default function ContactForm() {
                 )}
               </span>
             </button>
-            <p className="text-xs text-white/30">
+            <p className="text-center text-[10px] text-white/30 sm:text-left sm:text-xs">
               Gửi tới{" "}
               <span className="text-white/50">pkbtran.onlyjob@gmail.com</span>
             </p>

@@ -201,6 +201,8 @@ function PrimaryButton({
 
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navSentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -209,9 +211,31 @@ export default function Portfolio() {
     };
   }, [menuOpen]);
 
+  // Liquid-drop nav: morphs to top when sentinel leaves viewport,
+  // and morphs back when scrolling returns to the top.
+  useEffect(() => {
+    const node = navSentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const LIQUID =
+    "transition-all duration-[900ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none";
+
   return (
     <div className="relative min-h-[100dvh] overflow-x-hidden bg-[#050505] text-[#a3a3a8] selection:bg-[#ccff00] selection:text-black">
       <div className="noise-overlay" aria-hidden />
+      {/* Sentinel for liquid-drop nav morph (height = scroll trigger threshold) */}
+      <div
+        ref={navSentinelRef}
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 h-16 w-px"
+      />
 
       {/* Mesh gradients */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
@@ -232,10 +256,20 @@ export default function Portfolio() {
         />
       </div>
 
-      {/* Floating island nav */}
-      <header className="fixed inset-x-0 top-0 z-30 flex justify-center px-3 pt-4 sm:px-4 sm:pt-6">
+      {/* Floating island nav — liquid drop on scroll */}
+      <header
+        className={`fixed inset-x-0 top-0 z-30 flex justify-center px-3 sm:px-4 ${LIQUID} ${
+          isScrolled
+            ? "pt-1.5 sm:pt-2"
+            : "pt-4 sm:pt-6"
+        }`}
+      >
         <nav
-          className={`flex w-full max-w-4xl items-center justify-between gap-3 rounded-full border border-white/10 bg-black/50 px-3 py-2 backdrop-blur-2xl sm:gap-4 sm:px-4 sm:py-2.5 md:px-6 ${EASE}`}
+          className={`flex w-full items-center justify-between gap-3 rounded-full border bg-black/55 px-3 py-2 backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:gap-4 sm:px-4 sm:py-2.5 md:px-6 ${LIQUID} ${
+            isScrolled
+              ? "max-w-3xl border-white/15 bg-black/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_40px_-20px_rgba(0,0,0,0.7)]"
+              : "max-w-4xl border-white/10"
+          }`}
         >
           <a href="#home" className="text-base font-bold tracking-tight text-white sm:text-lg">
             Bảo<span style={{ color: ACCENT }}>Trân</span>

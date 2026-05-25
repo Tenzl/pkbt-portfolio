@@ -43,12 +43,32 @@ body {
 }
 
 @keyframes float-soft {
-  0%,
-  100% {
-    transform: translateY(0);
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  12.5% {
+    transform: translate3d(0, -4.6px, 0);
+  }
+  25% {
+    transform: translate3d(0, -8.5px, 0);
+  }
+  37.5% {
+    transform: translate3d(0, -11.1px, 0);
   }
   50% {
-    transform: translateY(-12px);
+    transform: translate3d(0, -12px, 0);
+  }
+  62.5% {
+    transform: translate3d(0, -11.1px, 0);
+  }
+  75% {
+    transform: translate3d(0, -8.5px, 0);
+  }
+  87.5% {
+    transform: translate3d(0, -4.6px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -57,12 +77,13 @@ body {
 }
 
 .animate-float-soft {
-  animation: float-soft 5s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+  animation: float-soft 7s linear infinite;
+  will-change: transform;
 }
 
 @media (max-width: 767px) {
   .animate-float-soft {
-    animation: none;
+    animation-duration: 8s;
   }
 
   .reveal {
@@ -72,19 +93,6 @@ body {
 
   .animate-mesh-drift {
     animation-duration: 24s;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal,
-  .reveal.is-visible {
-    filter: none;
-    transition-duration: 0.01ms;
-  }
-
-  .animate-float-soft,
-  .animate-mesh-drift {
-    animation: none;
   }
 }
 
